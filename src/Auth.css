@@ -144,6 +144,38 @@
   text-decoration: underline;
 }
 
+.error-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary-navy), var(--primary-navy-light));
+  color: white;
+}
+
+.error-card {
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  color: var(--text-primary);
+  padding: 2rem;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.error-card h1 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.error-card p {
+  margin: 0;
+  line-height: 1.6;
+}
+
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .auth-container {

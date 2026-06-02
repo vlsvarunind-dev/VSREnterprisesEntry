@@ -86,7 +86,11 @@ npm install
 
 3. Configure Supabase:
    - Create a Supabase project
-   - Update `src/supabaseClient.js` with your Supabase URL and API key
+   - Add a `.env` file in the repo root with the following values:
+     ```env
+     VITE_SUPABASE_URL=https://your-project.supabase.co
+     VITE_SUPABASE_ANON_KEY=your-anon-key
+     ```
    - Set up the following tables:
      - `VSRCUSTOMERDATA` (Customer information)
      - `VSRCYLINDERDATA` (Delivery/Receipt records)

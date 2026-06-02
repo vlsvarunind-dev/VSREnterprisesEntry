@@ -15,7 +15,7 @@ import ViewDC from './ViewDC.jsx'
 import Login from './Login.jsx'
 import Signup from './Signup.jsx'
 import ForgotPassword from './ForgotPassword.jsx'
-import { supabase } from './supabaseClient.js'
+import { supabase, hasSupabaseConfig } from './supabaseClient.js'
 
 
 function App() {
@@ -24,16 +24,33 @@ function App() {
   const [session, setSession] = useState(null);
   const [userName, setUserName] = useState('');
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState('');
+  const [fatalError, setFatalError] = useState('');
 
   // Check for existing session on mount
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (session) {
-        fetchUserProfile(session.user.id);
-      }
+    if (!hasSupabaseConfig) {
+      setFatalError(
+        'Supabase configuration is missing. Create a .env file with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY, then rebuild.'
+      );
       setLoading(false);
-    });
+      return;
+    }
+
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => {
+        setSession(session);
+        if (session) {
+          fetchUserProfile(session.user.id);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Supabase session error:', error);
+        setAuthError(error?.message || 'Failed to initialize authentication.');
+        setLoading(false);
+      });
 
     // Listen for auth changes
     const {
@@ -72,6 +89,29 @@ function App() {
     setUserName('');
     setCurrentPage('delivery');
   };
+
+  // Show fatal config or auth errors before any application content
+  if (fatalError) {
+    return (
+      <div className="error-screen">
+        <div className="error-card">
+          <h1>Configuration Error</h1>
+          <p>{fatalError}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (authError) {
+    return (
+      <div className="error-screen">
+        <div className="error-card">
+          <h1>Authentication Error</h1>
+          <p>{authError}</p>
+        </div>
+      </div>
+    );
+  }
 
   // Show loading state while checking authentication
   if (loading) {
