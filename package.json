@@ -2,9 +2,16 @@
   "name": "cylinder-details",
   "version": "1.0.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vlsvarunind-dev/VSREnterprisesEntry.git"
+  },
+  "homepage": "https://vlsvarunind-dev.github.io/VSREnterprisesEntry/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -15,5 +22,6 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "vite": "^5.0.8"
+    ,"gh-pages": "^5.0.0"
   }
 }
